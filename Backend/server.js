@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.post("/api/forms", async (req, res) => {
   const { name, slug, schema } = req.body;
-  console.log("Received:", name, slug,"\n",  "schema", schema);
+  console.log("Received:", name, slug, "\n", "schema", schema);
 
   try {
     const form = await prisma.form.create({
@@ -23,6 +23,55 @@ app.post("/api/forms", async (req, res) => {
     res.status(500).send("Failed to save form");
   }
 });
+
+app.get("/api/forms", async (req, res) => {
+  const forms = await prisma.form.findMany({
+    select: { name: true, slug: true },
+  });
+  res.json(forms);
+});
+
+// Add in server.js or your router file:
+app.get("/api/forms/:slug/entries", async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const form = await prisma.form.findUnique({
+      where: { slug },
+    });
+
+    if (!form) {
+      return res.status(404).json({ error: "Form not found" });
+    }
+
+    const entries = await prisma.formEntry.findMany({
+      where: { formId: form.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.json(entries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.put("/api/forms/:slug/entries/:id", async (req, res) => {
+    const { id } = req.params;
+    const { data } = req.body;
+  
+    try {
+      const updated = await prisma.formEntry.update({
+        where: { id: Number(id) },
+        data: { data },
+      });
+      res.json(updated);
+    } catch (error) {
+      console.error("Error updating entry:", error);
+      res.status(500).json({ error: "Failed to update entry" });
+    }
+  });
+  
 
 app.get("/api/forms/:slug", async (req, res) => {
   const form = await prisma.form.findUnique({
