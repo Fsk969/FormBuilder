@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Form {
-  id        Int        @id @default(autoincrement())
-  name      String
-  slug      String     @unique
-  schema    Json
-  createdAt DateTime   @default(now())
-  entries   FormEntry[]
+  id              Int             @id @default(autoincrement())
+  name            String
+  slug            String          @unique
+  schema          Json
+  createdAt       DateTime        @default(now())
+  entries         FormEntry[]
+  pageFormEntries PageFormEntry[] // 👈 Add this back-relation
 }
 
 model FormEntry {
@@ -25,9 +26,22 @@ model FormEntry {
 }
 
 model Page {
-  id        Int      @id @default(autoincrement())
-  name      String
-  slug      String   @unique
-  content   Json     // You can make it a Rich Text JSON block or simple structure
+  id              Int             @id @default(autoincrement())
+  name            String
+  slug            String          @unique
+  content         Json
+  createdAt       DateTime        @default(now())
+  pageFormEntries PageFormEntry[] // 👈 Add this back-relation
+}
+
+model PageFormEntry {
+  id     Int  @id @default(autoincrement())
+  page   Page @relation(fields: [pageId], references: [id])
+  pageId Int
+
+  form   Form @relation(fields: [formId], references: [id])
+  formId Int
+
+  data      Json
   createdAt DateTime @default(now())
 }

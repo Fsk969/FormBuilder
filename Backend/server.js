@@ -125,6 +125,81 @@ app.get("/api/pages/:slug", async (req, res) => {
   res.json(page);
 });
 
+app.post("/api/pages/:slug/submit", async (req, res) => {
+  const { slug } = req.params;
+  const { data } = req.body;
+
+  try {
+    // 1. Find the page
+    const page = await prisma.page.findUnique({
+      where: { slug },
+    });
+
+    if (!page) {
+      return res.status(404).json({ error: "Page not found" });
+    }
+
+    const layout = page.content?.layout;
+    if (!Array.isArray(layout)) {
+      return res.status(400).json({ error: "Invalid page layout" });
+    }
+
+    // 2. Find the latest form block from layout
+    const formBlock = layout.find((block) => block.id === "form");
+    if (!formBlock) {
+      return res.status(400).json({ error: "No form block found" });
+    }
+
+    const formSlug = `${slug}-form`;
+
+    // 3. Upsert the form (create or update if schema changed)
+    const existingForm = await prisma.form.findUnique({
+      where: { slug: formSlug },
+    });
+
+    let form;
+
+    if (existingForm) {
+      // Check if schema has changed
+      const schemaChanged =
+        JSON.stringify(existingForm.schema) !== JSON.stringify(formBlock.props);
+
+      if (schemaChanged) {
+        form = await prisma.form.update({
+          where: { slug: formSlug },
+          data: { schema: formBlock.props },
+        });
+      } else {
+        form = existingForm;
+      }
+    } else {
+      // Create new form
+      form = await prisma.form.create({
+        data: {
+          name: `${slug} Form`,
+          slug: formSlug,
+          schema: formBlock.props,
+        },
+      });
+    }
+
+    // 4. Create a page form entry
+    const entry = await prisma.pageFormEntry.create({
+      data: {
+        pageId: page.id,
+        formId: form.id,
+        data,
+      },
+    });
+
+    res.status(201).json({ message: "Form submitted", entry });
+  } catch (error) {
+    console.error("Error in page form submit:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 // Update a page
 app.put("/api/pages/:slug", async (req, res) => {
   const { slug } = req.params;

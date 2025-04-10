@@ -1,87 +1,115 @@
-// components/PageBuilder.jsx
 import { useState } from "react";
 import { AVAILABLE_BLOCKS } from "./blocks";
 
-export default function PageBuilder({ onSave }) {
-  const [canvas, setCanvas] = useState([]);
+export default function PageBuilder({ layout, setLayout }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const handleDrop = (blockId) => {
+  const handleDrop = (event) => {
+    const blockId = event.dataTransfer.getData("block-id");
     const block = AVAILABLE_BLOCKS.find((b) => b.id === blockId);
     if (block) {
-      setCanvas([
-        ...canvas,
-        {
-          key: Date.now(),
-          id: block.id,
-          props: block.defaultProps,
-        },
+      setLayout([
+        ...layout,
+        { key: Date.now(), id: block.id, props: block.defaultProps },
       ]);
     }
   };
 
-  const updateBlockProps = (index, newProps) => {
-    const updated = [...canvas];
-    updated[index].props = newProps;
-    setCanvas(updated);
+  const handleDropInRow = (parentIndex, rowIndex, event) => {
+    const blockId = event.dataTransfer.getData("block-id");
+    const block = AVAILABLE_BLOCKS.find((b) => b.id === blockId);
+    if (!block) return;
+
+    const updated = [...layout];
+    const parent = updated[parentIndex];
+
+    // Ensure parent is row-layout type
+    if (
+      parent.id === "row-layout" &&
+      parent.props?.children &&
+      Array.isArray(parent.props.children[rowIndex])
+    ) {
+      parent.props.children[rowIndex].push({
+        key: Date.now(),
+        id: block.id,
+        props: block.defaultProps,
+      });
+      setLayout(updated);
+    }
   };
 
-  const save = () => {
-    onSave(canvas); // Save full canvas with props
+  const updateBlockProps = (index, newProps) => {
+    const updated = [...layout];
+    updated[index].props = newProps;
+    setLayout(updated);
+  };
+
+  const removeBlock = (index) => {
+    setLayout(layout.filter((_, i) => i !== index));
+    setSelectedIndex(null);
   };
 
   return (
-    <div className="flex gap-6 p-6">
-      {/* Sidebar */}
-      <div className="w-1/4 border p-4 rounded shadow">
-        <h2 className="font-semibold mb-4">Components</h2>
-        {AVAILABLE_BLOCKS.map((block) => (
-          <div
-            key={block.id}
-            onClick={() => handleDrop(block.id)}
-            className="p-2 mb-2 bg-gray-200 rounded cursor-pointer"
-          >
-            {block.label}
-          </div>
-        ))}
-      </div>
+    <div className="flex gap-4 w-full h-full">
+      {/* Main Canvas Area */}
+      <div
+        className="flex-1 min-h-[80vh] border rounded p-4 bg-white shadow"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+      >
+        <h2 className="text-xl font-semibold mb-4">Page Canvas</h2>
 
-      {/* Canvas */}
-      <div className="flex-1 border p-4 rounded shadow bg-white min-h-[300px]">
-        <h2 className="font-semibold mb-4">Page Canvas</h2>
-        {canvas.map((block, index) => {
-          const definition = AVAILABLE_BLOCKS.find((b) => b.id === block.id);
+        {layout.map((block, index) => {
+          const def = AVAILABLE_BLOCKS.find((b) => b.id === block.id);
           return (
             <div
               key={block.key}
-              className={`mb-3 p-2 border rounded cursor-pointer ${
+              onClick={() => setSelectedIndex(index)}
+              className={`mb-4 p-3 border rounded relative group cursor-pointer ${
                 selectedIndex === index ? "bg-gray-100" : ""
               }`}
-              onClick={() => setSelectedIndex(index)}
             >
-              {definition?.render(block.props)}
+              {/* Render with nested drop support */}
+              {def?.render(block.props, (e, rowIndex) =>
+                handleDropInRow(index, rowIndex, e)
+              )}
+
+              {/* Delete Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeBlock(index);
+                }}
+                className="absolute top-1 right-1 text-red-500 text-sm px-2 py-0.5 rounded hover:bg-red-100 hidden group-hover:block"
+              >
+                ✕
+              </button>
             </div>
           );
         })}
-        {canvas.length === 0 && (
+
+        {layout.length === 0 && (
           <p className="text-gray-400 italic">Drag components here...</p>
         )}
-        <button
-          onClick={save}
-          className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
-        >
-          Save Page
-        </button>
       </div>
 
-      {/* Edit Panel */}
-      {selectedIndex !== null && (
-        <div className="w-1/4 border p-4 rounded shadow">
-          <h2 className="font-semibold mb-4">Edit Block</h2>
+      {/* Right Sidebar: Edit Block */}
+      {selectedIndex !== null && layout[selectedIndex] && (
+        <div className="w-[300px] border rounded p-4 bg-gray-50 shadow shrink-0 relative overflow-y-auto max-h-screen">
+          <button
+            onClick={() => setSelectedIndex(null)}
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg cursor-pointer"
+            aria-label="Close edit panel"
+          >
+            ✕
+          </button>
+
+          <h3 className="text-lg font-semibold mb-4">Edit Block</h3>
+
           {(() => {
-            const block = canvas[selectedIndex];
-            const definition = AVAILABLE_BLOCKS.find((b) => b.id === block.id);
-            return definition?.edit(block.props, (newProps) =>
+            const block = layout[selectedIndex];
+            const def = AVAILABLE_BLOCKS.find((b) => b.id === block.id);
+            return def?.edit(block.props, (newProps) =>
               updateBlockProps(selectedIndex, newProps)
             );
           })()}
