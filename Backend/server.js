@@ -57,21 +57,20 @@ app.get("/api/forms/:slug/entries", async (req, res) => {
 });
 
 app.put("/api/forms/:slug/entries/:id", async (req, res) => {
-    const { id } = req.params;
-    const { data } = req.body;
-  
-    try {
-      const updated = await prisma.formEntry.update({
-        where: { id: Number(id) },
-        data: { data },
-      });
-      res.json(updated);
-    } catch (error) {
-      console.error("Error updating entry:", error);
-      res.status(500).json({ error: "Failed to update entry" });
-    }
-  });
-  
+  const { id } = req.params;
+  const { data } = req.body;
+
+  try {
+    const updated = await prisma.formEntry.update({
+      where: { id: Number(id) },
+      data: { data },
+    });
+    res.json(updated);
+  } catch (error) {
+    console.error("Error updating entry:", error);
+    res.status(500).json({ error: "Failed to update entry" });
+  }
+});
 
 app.get("/api/forms/:slug", async (req, res) => {
   const form = await prisma.form.findUnique({
@@ -93,6 +92,65 @@ app.post("/api/forms/:slug/submit", async (req, res) => {
     },
   });
   res.json(entry);
+});
+
+// Create a page
+app.post("/api/pages", async (req, res) => {
+  const { name, slug, content } = req.body;
+  try {
+    const page = await prisma.page.create({
+      data: { name, slug, content },
+    });
+    res.json(page);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create page" });
+  }
+});
+
+// Get all pages
+app.get("/api/pages", async (req, res) => {
+  const pages = await prisma.page.findMany({
+    select: { name: true, slug: true },
+  });
+  res.json(pages);
+});
+
+// Get a specific page
+app.get("/api/pages/:slug", async (req, res) => {
+  const page = await prisma.page.findUnique({
+    where: { slug: req.params.slug },
+  });
+  if (!page) return res.status(404).json({ error: "Page not found" });
+  res.json(page);
+});
+
+// Update a page
+app.put("/api/pages/:slug", async (req, res) => {
+  const { slug } = req.params;
+  const { name, content } = req.body;
+
+  try {
+    const updated = await prisma.page.update({
+      where: { slug },
+      data: { name, content },
+    });
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update page" });
+  }
+});
+
+// Delete a page
+app.delete("/api/pages/:slug", async (req, res) => {
+  const { slug } = req.params;
+  try {
+    await prisma.page.delete({ where: { slug } });
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete page" });
+  }
 });
 
 const PORT = process.env.PORT || 3000;

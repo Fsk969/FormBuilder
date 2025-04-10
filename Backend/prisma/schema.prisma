@@ -23,3 +23,11 @@ model FormEntry {
   data      Json
   createdAt DateTime @default(now())
 }
+
+model Page {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  content   Json     // You can make it a Rich Text JSON block or simple structure
+  createdAt DateTime @default(now())
+}

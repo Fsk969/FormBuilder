@@ -12,6 +12,7 @@ export default function Renderer() {
       .then((data) => setSchema(data.schema || []));
   }, [slug]);
 
+  
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
