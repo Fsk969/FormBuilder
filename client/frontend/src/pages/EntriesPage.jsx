@@ -16,6 +16,8 @@ export default function EntriesPage() {
       .then((res) => res.json())
       .then((data) => {
         setEntries(data);
+
+        console.log("Data", data);
         setLoading(false);
       });
   }, [slug]);

@@ -42,7 +42,7 @@ export default function Renderer() {
 
   return (
     <div className="p-4 max-w-2xl mx-auto">
-      <h1 className="text-xl mb-4">Fill Out Form</h1>
+      <h1 className="text-xl mb-4">{slug}</h1>
       <form
         className="space-y-4"
         onSubmit={(e) => {

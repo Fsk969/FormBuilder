@@ -110,10 +110,15 @@ app.post("/api/pages", async (req, res) => {
 
 // Get all pages
 app.get("/api/pages", async (req, res) => {
-  const pages = await prisma.page.findMany({
-    select: { name: true, slug: true },
-  });
-  res.json(pages);
+  try {
+    const pages = await prisma.page.findMany({
+      select: { name: true, slug: true },
+    });
+    res.json(pages);
+  } catch (error) {
+    console.error("Error fetching pages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Get a specific page
@@ -198,7 +203,6 @@ app.post("/api/pages/:slug/submit", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 // Update a page
 app.put("/api/pages/:slug", async (req, res) => {

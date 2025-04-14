@@ -18,21 +18,21 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.content}
           onChange={(e) => onChange({ ...props, content: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
@@ -44,7 +44,7 @@ export const AVAILABLE_BLOCKS = [
     render: (props) => (
       <h2
         style={{ width: props.width, height: props.height }}
-        className="text-2xl font-bold"
+        className="text-2xl font-Medium"
       >
         {props.content}
       </h2>
@@ -55,21 +55,21 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.content}
           onChange={(e) => onChange({ ...props, content: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
@@ -92,21 +92,21 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.label}
           onChange={(e) => onChange({ ...props, label: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
@@ -124,7 +124,7 @@ export const AVAILABLE_BLOCKS = [
         type="text"
         placeholder={props.placeholder}
         style={{ width: props.width, height: props.height }}
-        className="p-2 border rounded"
+        className="p-2 border border-gray-300 rounded"
       />
     ),
     edit: (props, onChange) => (
@@ -133,21 +133,21 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.placeholder}
           onChange={(e) => onChange({ ...props, placeholder: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
@@ -164,7 +164,7 @@ export const AVAILABLE_BLOCKS = [
       <textarea
         placeholder={props.placeholder}
         style={{ width: props.width, height: props.height }}
-        className="p-2 border rounded"
+        className="p-2 border border-gray-300 rounded"
       />
     ),
     edit: (props, onChange) => (
@@ -173,21 +173,21 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.placeholder}
           onChange={(e) => onChange({ ...props, placeholder: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
@@ -229,7 +229,7 @@ export const AVAILABLE_BLOCKS = [
                 required={field.required}
                 value={formData[field.label] || ""}
                 onChange={(e) => handleChange(field.label, e.target.value)}
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
           ))}
@@ -271,7 +271,10 @@ export const AVAILABLE_BLOCKS = [
       return (
         <div className="space-y-3">
           {props.fields.map((field, idx) => (
-            <div key={field.key} className="p-2 border rounded space-y-2">
+            <div
+              key={field.key}
+              className="p-2 border border-gray-300 rounded space-y-2"
+            >
               <input
                 type="text"
                 value={field.label}
@@ -279,7 +282,7 @@ export const AVAILABLE_BLOCKS = [
                   updateField(idx, { ...field, label: e.target.value })
                 }
                 placeholder="Label"
-                className="w-full p-1 border rounded"
+                className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
               />
               <input
                 type="text"
@@ -288,14 +291,14 @@ export const AVAILABLE_BLOCKS = [
                   updateField(idx, { ...field, placeholder: e.target.value })
                 }
                 placeholder="Placeholder"
-                className="w-full p-1 border rounded"
+                className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
               />
               <select
                 value={field.type}
                 onChange={(e) =>
                   updateField(idx, { ...field, type: e.target.value })
                 }
-                className="w-full p-1 border rounded"
+                className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
               >
                 <option value="text">Text</option>
                 <option value="email">Email</option>
@@ -335,7 +338,10 @@ export const AVAILABLE_BLOCKS = [
     render: ({ columns }) => (
       <div className={`grid gap-4 grid-cols-${columns}`}>
         {[...Array(columns)].map((_, i) => (
-          <div key={i} className="p-4 border bg-gray-100 text-center">
+          <div
+            key={i}
+            className="p-4 border border-gray-300 bg-gray-100 text-center"
+          >
             Column {i + 1}
           </div>
         ))}
@@ -349,7 +355,7 @@ export const AVAILABLE_BLOCKS = [
           onChange={(e) =>
             onChange({ ...props, columns: parseInt(e.target.value) })
           }
-          className="w-full border p-1 rounded"
+          className="w-full border border-gray-300 px-2 py-2 rounded"
         >
           {[2, 3, 4].map((col) => (
             <option key={col} value={col}>
@@ -371,7 +377,7 @@ export const AVAILABLE_BLOCKS = [
         {[...Array(rows)].map((_, i) => (
           <div
             key={i}
-            className="h-24 border bg-gray-100 flex items-center justify-center"
+            className="h-24 border border-gray-300 bg-gray-100 flex items-center justify-center"
           >
             Row {i + 1}
           </div>
@@ -386,7 +392,7 @@ export const AVAILABLE_BLOCKS = [
           onChange={(e) =>
             onChange({ ...props, rows: parseInt(e.target.value, 10) })
           }
-          className="w-full border p-1 rounded"
+          className="w-full border border-gray-300 px-2 py-2 rounded"
         >
           {[2, 3, 4, 5].map((r) => (
             <option key={r} value={r}>
@@ -416,23 +422,176 @@ export const AVAILABLE_BLOCKS = [
           type="text"
           value={props.label}
           onChange={(e) => onChange({ ...props, label: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Width"
           value={props.width}
           onChange={(e) => onChange({ ...props, width: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
         <input
           type="text"
           placeholder="Height"
           value={props.height}
           onChange={(e) => onChange({ ...props, height: e.target.value })}
-          className="w-full p-1 border rounded"
+          className="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none"
         />
       </div>
     ),
+  },
+  {
+    id: "table",
+    label: "Table",
+    defaultProps: {
+      rowData: [],
+      columnDefs: [],
+      width: "100%",
+      height: "auto",
+    },
+    render: (props) => (
+      <div style={{ width: props.width, height: props.height }}>
+        <table className="table-auto border-collapse border border-gray-300 w-full">
+          <thead>
+            <tr>
+              {props.columnDefs.map((col, index) => (
+                <th key={index} className="border border-gray-300 px-4 py-2">
+                  {col.headerName || (
+                    <span className="text-gray-400 italic">Untitled</span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {props.rowData.length > 0 ? (
+              props.rowData.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {props.columnDefs.map((col, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="border border-gray-300 px-4 py-2"
+                    >
+                      {row[col.field] || ""}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                {props.columnDefs.map((_, i) => (
+                  <td
+                    key={i}
+                    className="border border-gray-300 px-4 py-2 text-center text-gray-400"
+                  >
+                    Empty
+                  </td>
+                ))}
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    ),
+    edit: (props, onChange) => {
+      const updateRowData = (index, field, value) => {
+        const updated = [...props.rowData];
+        updated[index] = { ...updated[index], [field]: value };
+        onChange({ ...props, rowData: updated });
+      };
+
+      const updateColumnDefs = (index, key, value) => {
+        const updated = [...props.columnDefs];
+        updated[index] = { ...updated[index], [key]: value };
+        onChange({ ...props, columnDefs: updated });
+      };
+
+      const addColumn = () => {
+        const updated = [...props.columnDefs, { headerName: "", field: "" }];
+        onChange({ ...props, columnDefs: updated });
+      };
+
+      const addRow = () => {
+        const newRow = {};
+        props.columnDefs.forEach((col) => {
+          newRow[col.field] = "";
+        });
+        onChange({ ...props, rowData: [...props.rowData, newRow] });
+      };
+
+      return (
+        <div className="space-y-4">
+          <h4 className="font-semibold">Columns</h4>
+          {props.columnDefs.map((col, i) => (
+            <div key={i} className="flex gap-2 mb-2 flex-col">
+              <input
+                type="text"
+                placeholder="Header Name"
+                value={col.headerName}
+                onChange={(e) =>
+                  updateColumnDefs(i, "headerName", e.target.value)
+                }
+                className="flex-1 px-2 py-1 border border-gray-300 rounded"
+              />
+              <input
+                type="text"
+                placeholder="Field"
+                value={col.field}
+                onChange={(e) => updateColumnDefs(i, "field", e.target.value)}
+                className="flex-1 px-2 py-1 border border-gray-300 rounded"
+              />
+            </div>
+          ))}
+          <button
+            onClick={addColumn}
+            className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            + Add Column
+          </button>
+
+          <h4 className="font-semibold mt-4">Rows</h4>
+          {props.rowData.map((row, i) => (
+            <div key={i} className="flex gap-2 mb-2 flex-col">
+              {props.columnDefs.map((col) => (
+                <input
+                  key={col.field}
+                  type="text"
+                  placeholder={col.field}
+                  value={row[col.field] || ""}
+                  onChange={(e) => updateRowData(i, col.field, e.target.value)}
+                  className="flex-1 px-2 py-1 border border-gray-300 rounded"
+                />
+              ))}
+            </div>
+          ))}
+          {props.columnDefs.length > 0 && (
+            <button
+              onClick={addRow}
+              className="text-xs px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              + Add Row
+            </button>
+          )}
+
+          <div className="flex gap-2 mt-4 flex-col">
+            <input
+              type="text"
+              placeholder="Width"
+              value={props.width}
+              onChange={(e) => onChange({ ...props, width: e.target.value })}
+              className="flex-1 px-2 py-1 border border-gray-300 rounded"
+            />
+            <input
+              type="text"
+              placeholder="Height"
+              value={props.height}
+              onChange={(e) => onChange({ ...props, height: e.target.value })}
+              className="flex-1 px-2 py-1 border border-gray-300 rounded"
+            />
+          </div>
+        </div>
+      );
+    },
   },
 ];

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AVAILABLE_BLOCKS } from "./blocks";
+import { AVAILABLE_BLOCKS } from "./Blocks";
 
 export default function PageBuilder({ layout, setLayout }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -50,10 +50,10 @@ export default function PageBuilder({ layout, setLayout }) {
   };
 
   return (
-    <div className="flex gap-4 w-full h-full">
+    <div className="flex gap-4 w-full h-full shadow-lg">
       {/* Main Canvas Area */}
       <div
-        className="flex-1 min-h-[80vh] border rounded p-4 bg-white shadow"
+        className="flex-1 min-h-[80vh] rounded p-4 bg-white shadow-lg"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
@@ -65,7 +65,7 @@ export default function PageBuilder({ layout, setLayout }) {
             <div
               key={block.key}
               onClick={() => setSelectedIndex(index)}
-              className={`mb-4 p-3 border rounded relative group cursor-pointer ${
+              className={`mb-4 p-3 border border-gray-300 rounded relative group cursor-pointer ${
                 selectedIndex === index ? "bg-gray-100" : ""
               }`}
             >
@@ -95,7 +95,7 @@ export default function PageBuilder({ layout, setLayout }) {
 
       {/* Right Sidebar: Edit Block */}
       {selectedIndex !== null && layout[selectedIndex] && (
-        <div className="w-[300px] border rounded p-4 bg-gray-50 shadow shrink-0 relative overflow-y-auto max-h-screen">
+        <div className="w-64  rounded p-4 bg-white shadow-lg shrink-0 relative overflow-y-auto max-h-screen">
           <button
             onClick={() => setSelectedIndex(null)}
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg cursor-pointer"
