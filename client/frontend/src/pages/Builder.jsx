@@ -61,7 +61,7 @@ export default function Builder() {
         alert("Form saved successfully!");
         setFormName("");
         setSlug("");
-        setFields([]);
+        setFields([]);  
         setSelectedFieldIndex(null);
       } else {
         const error = await res.json();
