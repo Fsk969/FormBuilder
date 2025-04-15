@@ -31,7 +31,7 @@ npm install
 Create a .env file in the root directory and add the following:
 
 ```
-DATABASE_URL="postgresql://neondb_owner:npg_53WMgvFdjYIo@ep-misty-pond-a4m908ne-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
+DATABASE_URL=""
 
 ```
 
